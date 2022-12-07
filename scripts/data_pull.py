@@ -1,5 +1,7 @@
 import pandas as pd
 
+
+# noinspection SpellCheckingInspection
 def data_pull(data_filename, data_path = "./data/", data_type = 'pickle'):
     """A function for pulling in a csv or pickle for analysis
 

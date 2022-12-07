@@ -13,7 +13,7 @@ def link_getting(url, my_headers, explore = True, html_get = "a", reg_exp = "", 
     try:
         con = session.get(url, headers = my_headers)
     except Exception as e:
-        print("Error feteching the URL ", url)
+        print("Error fetching the URL ", url)
         print(e)
     try:
         soup = BeautifulSoup(con.text, parser)

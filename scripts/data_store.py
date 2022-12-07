@@ -17,4 +17,5 @@ def data_store(df, data_filename, data_path = "./data/", data_type = "pickle"):
     if data_type == "csv":
         df.to_csv(data_path+data_filename+".csv")
     elif data_type == "pickle":
+        # noinspection SpellCheckingInspection
         df.to_pickle(data_path+data_filename+".pkl", compression={'method': 'gzip', 'compresslevel': 9, 'mtime': 1})

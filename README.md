@@ -1,2 +1,2 @@
 # political_corpus_python
-A Python Respository for Collecting, Cleaning, and Modeling Political Sentiment
+A Python Repository for Collecting, Cleaning, and Modeling Political Sentiment
