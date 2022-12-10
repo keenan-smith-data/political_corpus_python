@@ -21,7 +21,7 @@ def preprocess_text(str_input):
     Returns:
         list: a list of stemmed processed words
     """
-    return [porter_stemmer.stem(word) for word in tqdm(word_tokenize(str_input)) if word not in project_stopwords and not word.isdigit()]
+    return [porter_stemmer.stem(word) for word in tqdm(word_tokenize(str_input)) if word not in project_stopwords and not word.isdigit() and len(word) >= 2]
 
 def preprocess_text_no_stem(str_input):
     """A Function for Processing text data
@@ -34,4 +34,4 @@ def preprocess_text_no_stem(str_input):
     Returns:
         list: a list of stemmed processed words
     """
-    return [word for word in tqdm(word_tokenize(str_input)) if word not in project_stopwords and not word.isdigit()]
+    return [word for word in tqdm(word_tokenize(str_input)) if word not in project_stopwords and not word.isdigit() and len(word) >= 2]
