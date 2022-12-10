@@ -5,3 +5,4 @@
 *.csv
 combined_corpus.pkl
 tokenized_corpus.pkl
+tokenized_corpus.dat
