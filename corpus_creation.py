@@ -2,6 +2,7 @@
 import pandas as pd
 import scripts.data_pull as dp
 import scripts.data_store as ds
+import scripts.bias_assignment as bias
 
 
 if __name__ == "__main__":
@@ -26,7 +27,10 @@ if __name__ == "__main__":
     data_corpus = data_corpus.astype(corpus_type_dict)
     data_corpus['art_date'] = pd.to_datetime(data_corpus['art_date'], yearfirst= True)
     # Group by and Apply to combined text corpus into a single row per article
-    test_corpus = data_corpus.groupby(corpus_cols[1:])['text'].apply(' '.join).reset_index()
-
-
-    ds.data_store(test_corpus, data_filename= 'combined_corpus')
+    full_corpus = data_corpus.groupby(corpus_cols[1:])['text'].apply(' '.join).reset_index()
+    # Text Cleaning and Bias Assignment
+    full_corpus['text'] = full_corpus['text'].astype(str).str.lower()
+    full_corpus['art_topic'] = full_corpus['art_topic'].str.lower()
+    full_corpus['art_bias'] = full_corpus["art_source"].apply(bias.bias_assignment)
+    # Store Tailored Data data
+    ds.data_store(full_corpus, data_filename='combined_corpus')
