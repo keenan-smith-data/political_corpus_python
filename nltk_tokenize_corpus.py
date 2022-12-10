@@ -3,7 +3,7 @@ import scripts.data_pull as data_pull
 import scripts.blosc_interface as bi
 import scripts.preprocess_text as ppt
 from nltk.stem import WordNetLemmatizer
-from alive_progress import alive_bar;
+from alive_progress import alive_bar
 
 wordnet_lem = WordNetLemmatizer()
 
