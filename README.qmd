@@ -1,0 +1,106 @@
+---
+title: "Political Corpus Analysis in Python"
+author: "Keenan Smith"
+format: gfm
+jupyter: python3
+---
+
+# Political Corpus using Python
+
+This project was utilized as an introduction for myself into the world of the Python Data Science community. I have done a majority of my programming in the R programming language, but considering that Python is 66% of the Data Science community according to Dataquest, I thought it would be pertinent to at least be familiar with these resources and how they interact with one another.
+
+## The Problem to be Solved
+
+We currently live in a very politically motivated time within the United States. This has led to a perponderance of data related to political speech. My interests in this project relate to the way that humans use words to convey meaning. In the world of Data Science this is called Natural Language Processing or NLP for short. It is the process of taking language data and analyzing it for meaning. My intent for this project was to take the various corpus that I had already collected over the summer, tidy it up, and then run various grid searches on this data to see if the natural language we use can attribute to where someone may lie on the political spectrum. 
+
+## The Easiest Way to Run this Code
+
+1. Clone <https://github.ncsu.edu/ktsmith4/python_project.git> into a directory that you would feel comfortable placing it
+
+2. This code was built using conda. Please install conda and use this `$ conda create --name <env> --file <this file>` command to create a virtual environment that has all of the requirements. *Unfortunately, Anaconda is pretty hefty and I didn't have a miniconda venv availiable to clone*
+
+3. run `$ python project_main.py` while in the repository. This will get you everything to start modeling. 
+
+4. If you wish, you only need to get the full corpus tokenized, and then you can model the data as you see fit. The grid searches take quite some time and are more for me than for others. 
+
+5. Enjoy this unique dataset that you may never have seen before. If you find something interesting, submit a pull request or an issue to let me know! 
+
+6. My personal github is <https://github.com/Senpai-Eeyore> this is where this repository is hosted. Feel free to let me know if you would like to work on things in the future or if my code could use some improvements!
+
+7. Have a good one!
+
+### A Caveat
+
+This is part two in a large project that I am working on, which is to great a political sentiment dictionary and then apply it to Supreme Court opinions. This project was a perfect opportunity to both, learn Python's Data Science capability and move a step closer in my goals. This is by no means a final analysis and if anything it is an exploratory modelling exercise to test the hypothesis of whether these corpus can be classified accurately and consistently. I intend to collect even more data in the future to add to my 21500 or so articles that I have already collected. 
+
+## The Data
+
+The data is a collection of 4 seperate news and think tank organizations. It was collected using html web scraping. The parties that represent the Left-Wing are Jacobin and the Brookings Institute. The parties that represent the Right-Wing are the Heritage Foundation, and the Claremont Institute's American Mind publication. The data was obtained in accordance with robots.txt guidelines for each site. Upon inspection the columns are as follows: 
+
+*text* being the text of the article, *art_title* being the title of the article, *art_author* being the author(s) of the article, *art_date* being the date of publication, *art_topic* being the collection of topics determined by the publication of the article (I intend to cluster this data in the future), *art_link* being the article URL, and lastly, *art_source* being the publication of the article. 
+
+## Project Process
+
+I approached this project in a linear manner. First, I had collected the data previously using the R programming language and the `rvest` package. This package is based off the `bs4` package that Python is known. I, then, processed the data into Python from csv files and turned them into `Pickle` files that Python is known for. This also helps overcome the size upload limitation of GitHub. Everything that follows, I first did in a Jupyter Notebook and then transferred it into Production python files to be run either in a Python file or a shell script. 
+
+### Creating the Full Corpus
+
+Running the `corpus_creation.py` script in the project library will create the full corpus. 
+
+The full corpus was created using `pandas` and a series of other scripts. 
+
+1. The individual corpus are first pulled into Python as `pd.DataFrame` and the by using `pd.concat` they are combined vertically. Fortunately, I had already ensured this when I collected the data so that the columns are aligned. 
+
+2. I then used `data_corpus.dropna()` to ensure there were no empty rows. 
+
+3. Then, I made sure the `pd.Series` were the right `dtype` I did this by creating a `Dict` and passing it through `.astype()`. I used `pd.to_datetime` to ensure the `art_date` was in date format. 
+
+4. I then combined all of the text together using a groupby on the URLs since they are individual keys for each of the articles. I did have help in doing this by finding a helpful StackOverflow answer located here <https://stackoverflow.com/questions/36392735/how-to-combine-multiple-rows-into-a-single-row-with-pandas>
+
+5. The last few operations I used were to clean up some of the columns, especially the text data to ensure it was lower case and a string. I also wrote a function to assign bias based on the `art_source` to give the data the two classes I wished to analyze.
+
+6. Lastly, I stored the data in a compact dat file. This file must be generated using the `corpus_creation.py` script as it is quite large. 
+
+### Tokenization
+
+Running the `nltk_tokenize_corpus.py` will create the tokenized corpus ready for modeling.
+
+Tokenization was accomplished using the `nltk` library in Python. To save time, NLP is accomplished by tokenizing the text data and then vectorizing it in some way to make sure that it can be modelled or analyzed. There are plenty of textbooks and articles on the web for those that are curious. There is even an NLTK book for Python3. For this section, I used some of the techniques shown in this article by Jan Kirenz <https://www.kirenz.com/post/2021-12-11-text-mining-and-sentiment-analysis-with-nltk-and-pandas-in-python/text-mining-and-sentiment-analysis-with-nltk-and-pandas-in-python/>
+
+1. The full corpus is brought into python and immediately tokenized using a list comprehension function. This also has some progress bars on it from the `tqdm` library. I used a combination of the above link and stack overflow to really narrow in on a good list comprehension. I was originally doing several different list compressions to tokenize, then remove stopwords, then stem/lemmatize them. Which mean I was running a for loop 3 times, so I am really happy with the end result.
+
+**Warning** This script takes about ~10 mins to complete. I tried to parallize it but its just above my skill level to get it to work. 
+
+
+### Modeling
+
+There are four seperate grid search scripts that find close to optimal parameters based off common machine learning practices as well as my own curiousities. I used the famous `scikit-learn` library to do this work. 
+
+The main thing that is nice is that I used `NLTK` to tokenize and lemmatize so that way I could keep the text features going through the `sklearn.pipeline.Pipeline()` object which is extremely powerful in `scikit-learn`
+
+1. I chose 4 models to test out: `['LogisticRegression', 'RandomForestClassifier', 'LinearSVC', 'KNeighborsClassifier']`
+
+2. I built a grid search function that takes a filename, `Pipeline` object, and parameter `Dict` object as well as some parameters for changing the way the `RandomizedGridCV` was accomplished. 
+
+I have had a lot of difficulty with the parallel processes running these scripts. They each take about an hour or more to run and when I have multiple cores active, they will sometimes cause a memory fault.
+
+## Results
+
+I have been able to get the LASSO regression completed and it has a testing accuracy of 86 percent. I used a Term Frequency-Inverse Document Frequency vectorization for the text data and ran the grid search with `[200, 300, 400]` highest count features. I then passed them through a `TruncatedSVD` pipe to reduce the dimensionality before passing those vectors into the classifier. Overall, I am happy with my results thus far. 
+
+I have struggled a lot with the outputs of `scikit-learn`, being a primarily R programmer, I can tell that `scikit-learn` is meant more for production modelling since it does not output a full statistical summary the way most model outputs will in R. This has led to a tough time evaluating the model holistically. It really does focus on the metrics most people are aware of and not the nitty-gritty as R does. 
+The modelling exploration is quite computationally expensive with each of the scripts clocking in at about an hour or more if I can get them to run on multiple cores. If it is a single core, they can take much longer. I have thought to take this process to a cloud computing service, but I am not sure I want to incur the cost right now. I made sure to store the results of the scripts into a dat file so that I can do further modelling in the future. 
+
+## Future Work
+
+1. Pull in more text data from other think tanks and news sources
+
+2. Perform Deep Learning NLP techniques on the Data
+
+3. Complete the Sentiment Analysis
+
+4. Create more visualizations regarding the data
+
+
+
+

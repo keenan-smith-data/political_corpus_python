@@ -25,7 +25,7 @@ def main():
             "svc_clf__C": np.logspace(-4, 4, 4),
         }
 
-    grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid)
+    grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid, threads = 1)
 
 
 

@@ -21,10 +21,10 @@ def main():
             "vect__ngram_range": [(1, 1), (1, 2)],
             "vect__max_features": [200, 300, 400],
             "svd__n_components": [5, 15, 30, 45, 60],
-            "knn_clf__max_features": [2, 3, 4, 5, 6],
+            "knn_clf__n_neighbors": [2, 3, 4, 5, 6],
         }
 
-    grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid)
+    grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid, threads = 1)
 
 
 

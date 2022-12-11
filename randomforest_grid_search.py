@@ -26,7 +26,7 @@ def main():
             "forest_clf__max_depth": np.arange(5, 100, 10),
         }
 
-    grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid)
+    grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid, threads = 1)
 
 
 
