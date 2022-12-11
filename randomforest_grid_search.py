@@ -14,7 +14,7 @@ def main():
             ('vect', CountVectorizer()),
             ('tfidf', TfidfTransformer()),
             ("svd", TruncatedSVD()),
-            ('forest_clf', RandomForestClassifier(random_state = 42)), # this needs to be a different solver for LASSO
+            ('forest_clf', RandomForestClassifier(random_state = 42)),
         ])
 
     log_param_grid = {
@@ -23,7 +23,7 @@ def main():
             "svd__n_components": [5, 15, 30, 45, 60],
             "forest_clf__max_features": ['sqrt', 'log2'],
             "forest_clf__criterion": ['gini', 'entropy'],
-            "forest_clf__max_depth": np.arange(5, 100, 10),
+            "forest_clf__max_depth": np.arange(5, 50, 10),
         }
 
     grid_search.corpus_model_grid_search(results_filename, log_clf, log_param_grid, threads = 1)

@@ -14,7 +14,7 @@ def main():
             ('vect', CountVectorizer()),
             ('tfidf', TfidfTransformer()),
             ("svd", TruncatedSVD()),
-            ('knn_clf', KNeighborsClassifier()), # this needs to be a different solver for LASSO
+            ('knn_clf', KNeighborsClassifier()),
         ])
 
     log_param_grid = {
