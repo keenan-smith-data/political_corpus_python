@@ -48,7 +48,7 @@ log_clf = Pipeline([
             ('vect', CountVectorizer()),
             ('tfidf', TfidfTransformer()),
             ("svd", TruncatedSVD()),
-            ('log_clf', LogisticRegression()) # this needs to be a different solver for LASSO
+            ('log_clf', LogisticRegression())
         ])
 
 # Fitting the Optimized Log Reg Model
@@ -182,7 +182,7 @@ knn_clf = Pipeline([
         ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer()),
         ("svd", TruncatedSVD()),
-        ('knn_clf', KNeighborsClassifier()), # this needs to be a different solver for LASSO
+        ('knn_clf', KNeighborsClassifier()),
     ])
 
 knn_clf.fit(x_train, y_train)
@@ -200,7 +200,7 @@ knn_opt_clf = Pipeline([
         ('vect', CountVectorizer(max_features=400, ngram_range=(1,1))),
         ('tfidf', TfidfTransformer()),
         ("svd", TruncatedSVD(n_components=60)),
-        ('knn_clf', KNeighborsClassifier(n_neighbors = 5)), # this needs to be a different solver for LASSO
+        ('knn_clf', KNeighborsClassifier(n_neighbors = 5)),
     ])
 
 knn_opt_clf.fit(x_train, y_train)
@@ -225,7 +225,7 @@ forest_clf = Pipeline([
         ('vect', CountVectorizer()),
         ('tfidf', TfidfTransformer()),
         ("svd", TruncatedSVD()),
-        ('forest_clf', RandomForestClassifier()), # this needs to be a different solver for LASSO
+        ('forest_clf', RandomForestClassifier()),
     ])
 
 forest_clf.fit(x_train, y_train)
@@ -244,7 +244,7 @@ forest_opt_clf = Pipeline([
         ('tfidf', TfidfTransformer()),
         ("svd", TruncatedSVD(n_components=60)),
         ('forest_clf', RandomForestClassifier(max_feature="log2",max_depth=35,
-        criterion="entropy")), # this needs to be a different solver for LASSO
+        criterion="entropy")),
     ])
 
 forest_opt_clf.fit(x_train, y_train)
