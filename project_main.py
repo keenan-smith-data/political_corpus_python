@@ -1,9 +1,9 @@
 import corpus_creation as create
 import nltk_tokenize_corpus as tokenize
-import lasso_logistic_regression_grid_search as lasso_search
-import knn_grid_search as knn_search
-import randomforest_grid_search as forest_search
-import linearsvc_grid_search as svc_search
+import models.lasso_logistic_regression_grid_search as lasso_search
+import models.knn_grid_search as knn_search
+import models.randomforest_grid_search as forest_search
+import models.linearsvc_grid_search as svc_search
 import time
 
 def main():

@@ -6,7 +6,7 @@ from string import punctuation
 
 porter_stemmer = PorterStemmer()
 project_stopwords = set(stopwords.words("english"))
-corpus_specific_stopwords = ['000', '10', '19', "''", "'s", "``", "'", '"', "-"]
+corpus_specific_stopwords = ['000', '10', '19', "''", "'s", "``", "'", '"', "-", "brookings", "heritage", "foundation", "institute"]
 project_stopwords.union(set(corpus_specific_stopwords))
 project_stopwords.union(set(punctuation))
 
